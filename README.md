@@ -11,17 +11,18 @@ that warrant further economic investigation.
 Recently transitioning from colab to github.
 
 # Working notes:
-** Housekeeping **
+*Housekeeping*
 
-Complete volatility.py 
+Complete volatility.py
 
-Complete variance.py
+Complete variance.py -> touch up on variance function.
 
-Complete data.py
+~~complete data.py~~
 
 Figure out what .py file the "indicator timing" function should be in.
 
-** Data Exploration **
+*Data Exploration*
+
 Calculate typical price and add to data frame immediately after downloading
 Compare with GDP / CPI / FRED data. 
 
