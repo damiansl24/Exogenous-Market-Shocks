@@ -11,16 +11,23 @@ that warrant further economic investigation.
 Recently transitioning from colab to github.
 
 # Working notes:
-* Housekeeping * 
+** Housekeeping **
+
 Complete volatility.py 
+
 Complete variance.py
+
 Complete data.py
+
 Figure out what .py file the "indicator timing" function should be in.
 
-* Data Exploration *
+** Data Exploration **
 Calculate typical price and add to data frame immediately after downloading
 Compare with GDP / CPI / FRED data. 
+
 Some other tickers: Japan ^N225, India ^BSESN, UK ^FTSE, China 000001.SS or 
 MCHI, futures. 
+
 Use log returns to normalize returns.
+
 Implement Window Grid Search
