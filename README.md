@@ -13,13 +13,13 @@ Recently transitioning from colab to github.
 # Working notes:
 *Housekeeping*
 
-Complete volatility.py
+Implement volatility
 
-Complete variance.py -> touch up on variance function.
+Update beta.
 
-~~complete data.py~~
+Implement log normalized variance
 
-Figure out what .py file the "indicator timing" function should be in.
+Implement "indicator timing"
 
 *Data Exploration*
 

@@ -19,6 +19,8 @@ def covariance(mkt_data: pd.Series, time_window: int) -> pd.Series:
     tickers = mkt_data.columns.values.tolist()
     if len(tickers) != 2:
         return "Error: Provide only 2 indices for comparison"
+
+    prices = mkt_data.pct_change().dropna()
     
     covariance: None | list = []
     # Computing the rolling time window for covariance. 
@@ -27,7 +29,7 @@ def covariance(mkt_data: pd.Series, time_window: int) -> pd.Series:
             covariance.append(None)
             continue
         
-        window = mkt_data.iloc[i - time_window: i]
+        window = prices.iloc[i - time_window: i]
         means = window.mean()
         t1 = tickers[0]
         t2 = tickers[1]
@@ -38,25 +40,50 @@ def covariance(mkt_data: pd.Series, time_window: int) -> pd.Series:
     
     return pd.Series(covariance, index = mkt_data.index)
 
-def variance(mkt: pd.DataFrame, tick: str) -> float:
+def variance(mkt: pd.DataFrame, window: int) -> pd.Series | pd.DataFrame:
     '''
-    this is a helper function for the following beta function.
-    given price data for the market, which in the beta function
-    will automatically be shortened to within the specified time
-    window, return the variance of the market.
-
-    the dataframe should include a calculated typical price column.
+    Calculates variance of an index according to a rolling time window. 
 
     Parameters:
-    mkt: a dataframe of price data for the market, shortened to
-    specified time frame in the beta function.
+    mkt: a dataframe of price data for the market
 
     Returns:
-    a float value for variance
+    A series or dataframe, showing log-normalized variance over time
     '''
-    # var = (sum(real - mean) ** 2) / N
-    mean: float = mkt["typ",tick].mean() # establishing mean
+    tickers = mkt.columns.values.tolist()
 
-    var = ((mkt["typ", tick] - mean) ** 2).sum() / (mkt.shape[0] - 1)
+    variance: pd.DataFrame = pd.DataFrame(index = mkt.index, columns = tickers)
 
-    return var
+    prices = mkt.pct_change().dropna()
+    
+    for t in tickers:
+        var_list_t: list = []
+        for i in range(mkt.shape[0]):
+            if i < window:
+                var_list_t.append(None)
+                continue
+        
+            period = prices[i - window: i]
+            mean_t = period.mean()
+
+            var = ((period - mean_t) ** 2).sum() / (window - 1)
+
+            var_list_t.append(var)
+
+        variance.isetitem(tickers.index(t), var_list_t)
+    
+    return variance
+
+def variance_log(mkt: pd.DataFrame, window: int) -> pd.Series | pd.Dataframe:
+    '''
+    Calculates the variance of an index over time with a rolling time window,
+    calculated using log returns to normalize real price data. 
+
+    Parameters: 
+    mkt: a dataframe of price data for the market.
+
+    Returns: 
+    a series or dataframe, showing log-normalized variance over time.
+    '''
+
+    return NotImplementedError 
