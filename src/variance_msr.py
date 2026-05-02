@@ -1,4 +1,5 @@
 import pandas as pd
+import src.Exceptions
 
 def covariance(mkt_data: pd.Series, time_window: int) -> pd.Series: 
     '''
@@ -18,13 +19,13 @@ def covariance(mkt_data: pd.Series, time_window: int) -> pd.Series:
     # Measuring covariance only between two indices.
     tickers = mkt_data.columns.values.tolist()
     if len(tickers) != 2:
-        return "Error: Provide only 2 indices for comparison"
+        raise src.Exceptions.MustHaveTwoIndices("Covariance must only measure two indices")
 
     prices = mkt_data.pct_change().dropna()
     
     covariance: None | list = []
     # Computing the rolling time window for covariance. 
-    for i in range(mkt_data.shape[0]):
+    for i in range(prices.shape[0]): # pct_change drops first row.
         if i < time_window:
             covariance.append(None)
             continue
@@ -36,9 +37,9 @@ def covariance(mkt_data: pd.Series, time_window: int) -> pd.Series:
         
         # covariance computation
         cov = ((window[t1] - means[t1]) * (window[t2] - means[t2])).sum() / (time_window - 1)
-        covariance.append(cov)
+        covariance.append(float(cov))
     
-    return pd.Series(covariance, index = mkt_data.index)
+    return pd.Series(covariance, index = prices.index, name = "Covariance").dropna()
 
 def variance(mkt: pd.DataFrame, window: int) -> pd.Series | pd.DataFrame:
     '''
@@ -50,29 +51,34 @@ def variance(mkt: pd.DataFrame, window: int) -> pd.Series | pd.DataFrame:
     Returns:
     A series or dataframe, showing log-normalized variance over time
     '''
-    tickers = mkt.columns.values.tolist()
+    if isinstance(mkt, pd.Series):
+        df = mkt.to_frame()
+    else:
+        df = mkt
 
-    variance: pd.DataFrame = pd.DataFrame(index = mkt.index, columns = tickers)
+    tickers = df.columns.values.tolist()
+    prices = df.pct_change().dropna()
 
-    prices = mkt.pct_change().dropna()
+    variance: pd.DataFrame = pd.DataFrame(index = prices.index, columns = tickers)
     
     for t in tickers:
         var_list_t: list = []
-        for i in range(mkt.shape[0]):
+        for i in range(prices.shape[0]):
             if i < window:
                 var_list_t.append(None)
                 continue
         
-            period = prices[i - window: i]
+            period = prices[t].iloc[i - window: i]
             mean_t = period.mean()
 
-            var = ((period - mean_t) ** 2).sum() / (window - 1)
+            var = float(((period - mean_t) ** 2).sum()) / (window - 1)
 
             var_list_t.append(var)
 
+
         variance.isetitem(tickers.index(t), var_list_t)
     
-    return variance
+    return variance.dropna()
 
 def variance_log(mkt: pd.DataFrame, window: int) -> pd.Series | pd.Dataframe:
     '''
