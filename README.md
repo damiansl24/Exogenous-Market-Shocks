@@ -15,8 +15,6 @@ Recently transitioning from colab to github.
 
 Implement volatility
 
-Update beta.
-
 Implement log normalized variance
 
 Implement "indicator timing"
@@ -28,7 +26,5 @@ Compare with GDP / CPI / FRED data.
 
 Some other tickers: Japan ^N225, India ^BSESN, UK ^FTSE, China 000001.SS or 
 MCHI, futures. 
-
-Use log returns to normalize returns.
 
 Implement Window Grid Search
