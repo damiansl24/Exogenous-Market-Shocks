@@ -19,6 +19,8 @@ Implement log normalized variance
 
 Implement "indicator timing"
 
+Fix pythonic typing
+
 *Data Exploration*
 
 Calculate typical price and add to data frame immediately after downloading
