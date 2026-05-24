@@ -15,6 +15,10 @@ Recently transitioning from colab to github.
 
 Implement volatility
 
+Implement correlation (normalize covariance)
+
+Implement standard deviation (risk)
+
 Implement log normalized variance
 
 Implement "indicator timing"
