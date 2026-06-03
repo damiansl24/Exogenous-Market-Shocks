@@ -8,8 +8,6 @@ The key finding is that covariance spikes align with known crisis periods
 (2008, 2020), but also reveal smaller disruptions in 2012, 2016, and late 2018
 that warrant further economic investigation. 
 
-Recently transitioning from colab to github.
-
 # Working notes:
 *Housekeeping*
 

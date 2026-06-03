@@ -28,9 +28,10 @@ def beta(market_data: pd.DataFrame, time_window: int, ticker: str) -> pd.Series:
 
     return beta_series
 
-def volatility(market_data: pd.DataFrame, time_window) -> pd.Series | pd.DataFrame:
+def volatility(market_data: pd.DataFrame, time_window: int) -> pd.Series | pd.DataFrame:
     '''
-    Calculates rolling volatility of an asset or index.
+    Calculates rolling volatility of an asset or index. This is simply the standard 
+    deviation calculation.
 
     Parameters:
     market_data: dataframe containing typical price data for some asset or index
@@ -38,4 +39,10 @@ def volatility(market_data: pd.DataFrame, time_window) -> pd.Series | pd.DataFra
     Returns:
     Series or Dataframe with volatility of the asset.
     '''
+    stdev: None | list[None | float] = []
+
+    # need to calculate the rolling mean as well as rolling standard deviation: 
+    # Find the baseline mean then use LIFO to adjust it. 
+    # First n rows, standard deviation is measured by change 
+    
     return NotImplementedError
