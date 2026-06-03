@@ -13,11 +13,15 @@ that warrant further economic investigation.
 
 Implement volatility
 
-Update beta.
+Implement correlation (normalize covariance)
+
+Implement standard deviation (risk)
 
 Implement log normalized variance
 
 Implement "indicator timing"
+
+Fix pythonic typing
 
 *Data Exploration*
 
@@ -26,7 +30,5 @@ Compare with GDP / CPI / FRED data.
 
 Some other tickers: Japan ^N225, India ^BSESN, UK ^FTSE, China 000001.SS or 
 MCHI, futures. 
-
-Use log returns to normalize returns.
 
 Implement Window Grid Search
