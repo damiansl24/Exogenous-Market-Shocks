@@ -56,16 +56,16 @@ def variance(mkt: pd.DataFrame, window: int) -> pd.Series | pd.DataFrame:
 
     tickers = df.columns.values.tolist()
 
-    variance: pd.DataFrame = pd.DataFrame(index = prices.index, columns = tickers)
+    variance: pd.DataFrame = pd.DataFrame(index = mkt.index, columns = tickers)
     
     for t in tickers:
         var_list_t: list = []
-        for i in range(prices.shape[0]):
+        for i in range(mkt.shape[0]):
             if i < window:
                 var_list_t.append(None)
                 continue
         
-            period = prices[t].iloc[i - window: i]
+            period = mkt[t].iloc[i - window: i]
             mean_t = period.mean()
 
             var = float(((period - mean_t) ** 2).sum()) / (window - 1)
