@@ -3,14 +3,14 @@ import src.Exceptions
 
 def covariance(mkt_data: pd.Series, time_window: int) -> pd.Series: 
     '''
-    Calculating the covariance of two indices, given a certain time window.
+    Calculates the rolling covariance of two indices, within a certain time 
+    window. The function is input agnostic (can process typical price, log 
+    returns, and simple returns). 
 
     Parameters:
     market_data: a dataframe containing market information from the yfinance
     library for both markets / indices being measured.
-    time_window: the time window for covariance measure (will be optimized). The
-    window will be used to find the price means, and pct change will come from
-    that. To be clear, this is a rolling window.
+    time_window: the rolling time window for covariance measure (will be optimized).
 
     Returns:
     A series of covariance over time. 
@@ -20,8 +20,6 @@ def covariance(mkt_data: pd.Series, time_window: int) -> pd.Series:
     tickers = mkt_data.columns.values.tolist()
     if len(tickers) != 2:
         raise src.Exceptions.MustHaveTwoIndices("Covariance must only measure two indices")
-
-    prices = mkt_data.pct_change().dropna()
     
     covariance: None | list = []
     # Computing the rolling time window for covariance. 
@@ -39,11 +37,11 @@ def covariance(mkt_data: pd.Series, time_window: int) -> pd.Series:
         cov = ((window[t1] - means[t1]) * (window[t2] - means[t2])).sum() / (time_window - 1)
         covariance.append(float(cov))
     
-    return pd.Series(covariance, index = prices.index, name = "Covariance").dropna()
+    return pd.DataFrame(covariance, index = prices.index, name = "Covariance").dropna()
 
 def variance(mkt: pd.DataFrame, window: int) -> pd.Series | pd.DataFrame:
     '''
-    Calculates variance of an index according to a rolling time window. 
+    Calculates rolling variance of an index according to a rolling time window. 
 
     Parameters:
     mkt: a dataframe of price data for the market
@@ -57,7 +55,6 @@ def variance(mkt: pd.DataFrame, window: int) -> pd.Series | pd.DataFrame:
         df = mkt
 
     tickers = df.columns.values.tolist()
-    prices = df.pct_change().dropna()
 
     variance: pd.DataFrame = pd.DataFrame(index = prices.index, columns = tickers)
     

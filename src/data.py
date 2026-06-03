@@ -42,11 +42,13 @@ def load_stock_data(ticker: list[str], start_date:str, end_date:str) -> pd.DataF
     stock_data = yf.download(ticker, start=start_date, end=end_date)
 
     if stock_data.isna().any().any():
-        raise src.Exceptions.InvalidDataNaN("This dataset is incomplete. There
-                                            are NaN values in this dataset."
+        raise src.Exceptions.InvalidDataNaN(
+                "This dataset is incomplete."
+                "There are NaN values in this dataset.")
     if (stock_data <= 0).any().any():
-        raise src.Exceptions.InvalidDataZN("This dataset has errors. There are
-                                            Zero and Negative values.")
+        raise src.Exceptions.InvalidDataZN(
+                "This dataset has errors. There are"
+                "Zero and Negative values.")
     
     tickers: list = stock_data.columns.get_level_values(1).unique().tolist()
 

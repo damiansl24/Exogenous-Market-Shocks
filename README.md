@@ -11,11 +11,7 @@ that warrant further economic investigation.
 # Working notes:
 *Housekeeping*
 
-Implement volatility
-
 Implement correlation (normalize covariance)
-
-Implement standard deviation (risk)
 
 Implement log normalized variance
 

@@ -2,6 +2,7 @@ import pandas as pd
 import src.variance_msr
 import src.Exceptions
 
+
 def beta(market_data: pd.DataFrame, time_window: int, ticker: str) -> pd.Series:
     '''
     given price data for the market and a specific asset, return
@@ -39,10 +40,8 @@ def volatility(market_data: pd.DataFrame, time_window: int) -> pd.Series | pd.Da
     Returns:
     Series or Dataframe with volatility of the asset.
     '''
-    stdev: None | list[None | float] = []
+    var = src.variance_msr.variance(market_data, time_window)
 
-    # need to calculate the rolling mean as well as rolling standard deviation: 
-    # Find the baseline mean then use LIFO to adjust it. 
-    # First n rows, standard deviation is measured by change 
-    
-    return NotImplementedError
+    # standard deviation -> volatility is the same as the square root of
+    # variance. 
+    return var.pow(0.5)
